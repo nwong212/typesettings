@@ -6,6 +6,8 @@
 
 // Sets the type in EMs and makes a vertical rhythm unitless line-height that is
 // based on context.
+@use "sass:math";
+
 @mixin setType($lines: $base-line-multi, $font-size: $base-em-font-size, $silent: false) {
   font-size: $font-size;
   line-height: unitlessRhythm($lines, $font-size, $silent);
@@ -20,21 +22,21 @@
 // vertical grid unit. You will need to set border style and color rules.
 @mixin rhythmBorderTop($border-width: 1px, $lines: $base-line-multi, $font-size: $base-em-font-size) {
   border-top-width: $border-width;
-  padding-top: (($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width)) / (stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
+  padding-top: math.div(($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width), stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
 }
 
 // Creates a pixel width border bottom with padding that is a multiple of the base
 // vertical grid unit. You will need to set border style and color rules.
 @mixin rhythmBorderBottom($border-width: 1px, $lines: $base-line-multi, $font-size: $base-em-font-size) {
   border-bottom-width: $border-width;
-  padding-bottom: (($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width)) / (stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
+  padding-bottom: math.div(($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width), stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
 }
 
 // Creates a pixel width border with padding that is a multiple of the base
 // vertical grid unit. You will need to set border style and color rules.
 @mixin rhythmBorder($border-width: 1px, $lines: $base-line-multi, $font-size: $base-em-font-size) {
   border-width: $border-width;
-  padding: (($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width)) / (stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
+  padding: math.div(($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width), stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
 }
 
 // Creates base type baseline overlay and vertical unit overlay.
@@ -77,7 +79,7 @@
 
 @mixin typesettingsInit() {
   html {
-    font-size: ($base-font-size / 16px) * 100%;
+    font-size: math.div($base-font-size, 16px) * 100%;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
   }

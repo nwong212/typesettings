@@ -3,18 +3,20 @@
 //==============================================================================
 
 // Check if value is an integer and returns true or false
+@use "sass:math";
+
 @function is-int($number) {
   @return type-of($number) == number and floor(abs($number)) == abs($number);
 }
 
 // Returns a number without a unit. For example 16px becomes 16
 @function stripUnits($number) {
-  @return $number / ($number * 0 + 1);
+  @return math.div($number, $number * 0 + 1);
 }
 
 // Returns an EM value. For example 24px becomes 1.5em
 @function emCalc($target, $context: $base-font-size) {
-  @return stripUnits(($target / $context)) + 0em;
+  @return stripUnits(math.div($target, $context)) + 0em;
 }
 
 // Returns an EM value that is a multiple of our defined base vertical unit. For
@@ -23,7 +25,7 @@
   @if is-int($lines) == false and $silent == false {
     @warn  #{$lines} + $not-integer-txt;
   }
-  @return (stripUnits($lines) * stripUnits($base-vertical-unit)) / (stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
+  @return math.div(stripUnits($lines) * stripUnits($base-vertical-unit), stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
 }
 
 // Returns a unitless number that is a multiple of our defined base vertical unit.
@@ -32,5 +34,5 @@
   @if is-int($lines) == false and $silent == false {
     @warn #{$lines} + $not-integer-txt;
   }
-  @return ($lines * stripUnits($base-vertical-unit)) / (stripUnits($font-size) * stripUnits($base-font-size));
+  @return math.div($lines * stripUnits($base-vertical-unit), stripUnits($font-size) * stripUnits($base-font-size));
 }

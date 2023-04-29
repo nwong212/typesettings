@@ -4,3 +4,4 @@ _typesettings.css
 node_modules
 test/scss/styles.css
 test/styl/styles.css
+config.codekit3
